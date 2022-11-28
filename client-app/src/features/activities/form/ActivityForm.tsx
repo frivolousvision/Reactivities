@@ -90,7 +90,7 @@ const ActivityForm = () => {
               timeCaption="true"
               dateFormat="MMMM d, yyyy h:mm aa"
             />
-            <Header content="Location Detials" sub color="teal" />
+            <Header content="Location Details" sub color="teal" />
             <MyTextInput placeholder="City" name="city" />
             <MyTextInput placeholder="Venue" name="venue" />
             <Button

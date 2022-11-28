@@ -10,7 +10,7 @@ interface Props {
 }
 
 const MyTextInput = (props: Props) => {
-  const [field, meta] = useField(props.name);
+  const [field, meta] = useField(props.name ?? "");
   return (
     <Form.Field error={meta.touched && !!meta.error}>
       <label>{props.label}</label>
