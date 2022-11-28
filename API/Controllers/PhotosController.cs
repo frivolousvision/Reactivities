@@ -4,8 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    [RequestFormLimits(ValueCountLimit = 5000)]
     public class PhotosController : BaseApiController
     {
+
         [HttpPost]
         public async Task<IActionResult> Add([FromForm] Add.Command command)
         {
