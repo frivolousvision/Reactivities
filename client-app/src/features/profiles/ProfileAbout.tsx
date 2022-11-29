@@ -42,7 +42,8 @@ export default function ProfileAbout({ profile: profiles }: Props) {
             ></Header>
             {isCurrentUser && (
               <Button
-                content={editMode ? "Cancel" : "Edit"}
+                basic
+                content={editMode ? "Cancel" : "Edit Profile"}
                 floated="right"
                 onClick={() => setEditMode(!editMode)}
               />
@@ -73,7 +74,7 @@ export default function ProfileAbout({ profile: profiles }: Props) {
                   <Button
                     disabled={isSubmitting || !dirty || !isValid}
                     type="submit"
-                    content="Submit"
+                    content="Update Profile"
                     color="green"
                     floated="right"
                     loading={isSubmitting}
