@@ -5,6 +5,7 @@ import { Activity, ActivityFormValues } from "../models/activity";
 import { PaginatedResult } from "../models/pagination";
 import { Photo, Profile } from "../models/profile";
 import { User, UserFormValues } from "../models/user";
+import { UserActivity } from "../models/userActivity";
 import { store } from "../store/store";
 
 const sleep = (delay: number) => {
@@ -114,6 +115,10 @@ const Profiles = {
     requests.post(`/follow/${username}`, {}),
   listFollowings: (username: string, predicate: string) =>
     requests.get<Profile[]>(`/follow/${username}?predicate=${predicate}`),
+  listAttending: (username: string, params: URLSearchParams) =>
+    axios
+      .get<UserActivity[]>(`/profiles/${username}/activities`, { params })
+      .then(responseBody),
 };
 
 const agent = {

@@ -1,6 +1,7 @@
 import { makeAutoObservable, reaction, runInAction } from "mobx";
 import agent from "../api/agent";
 import { Photo, Profile, ProfileFormValues } from "../models/profile";
+import { UserActivity } from "../models/userActivity";
 import { store } from "./store";
 
 export default class ProfileStore {
@@ -11,6 +12,10 @@ export default class ProfileStore {
   followings: Profile[] = [];
   loadingFollowings = false;
   activeTab = 0;
+  activeSubTab = 0;
+  userActivites: UserActivity[] | null = null;
+  userActivityParams: string = "future";
+  loadingUserActivity = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -26,10 +31,28 @@ export default class ProfileStore {
         }
       }
     );
+    reaction(
+      () => this.activeSubTab,
+      (activeSubTab) => {
+        this.userActivityParams = "future";
+        if (activeSubTab === 0) {
+          this.userActivityParams = "future";
+        }
+        if (activeSubTab === 1) {
+          this.userActivityParams = "past";
+        } else if (activeSubTab === 2) {
+          this.userActivityParams = "hosting";
+        }
+        this.loadUserActivities(this.profile!.username);
+      }
+    );
   }
 
   setActiveTab = (activeTab: number) => {
     this.activeTab = activeTab;
+  };
+  setActiveSubTab = (activeTab: number) => {
+    this.activeSubTab = activeTab;
   };
 
   get isCurrentUser() {
@@ -38,6 +61,24 @@ export default class ProfileStore {
     }
     return false;
   }
+
+  loadUserActivities = async (username: string) => {
+    this.loadingUserActivity = true;
+    try {
+      const params = new URLSearchParams();
+      params.append("predicate", this.userActivityParams);
+      const activities = await agent.Profiles.listAttending(username, params);
+      runInAction(() => {
+        this.userActivites = activities;
+        this.loadingUserActivity = false;
+      });
+    } catch (error) {
+      console.log(error);
+      runInAction(() => {
+        this.loadingUserActivity = false;
+      });
+    }
+  };
 
   loadProfile = async (username: string) => {
     this.loadingProfile = true;
