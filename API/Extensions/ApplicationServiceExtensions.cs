@@ -1,3 +1,4 @@
+
 using System;
 using Application.Activities;
 using Application.Core;
@@ -29,9 +30,10 @@ namespace API.Extensions
 
                 string connStr;
 
-                // Depending on if in development or production, use either Heroku-provided
+                // Depending on if in development or production, use either FlyIO
                 // connection string, or development connection string from env var.
                 if (env == "Development")
+                // if (1 + 1 == 2)
                 {
                     // Use connection string from file.
                     connStr = config.GetConnectionString("DefaultConnection");
@@ -52,7 +54,7 @@ namespace API.Extensions
                     var pgHost = pgHostPort.Split(":")[0];
                     var pgPort = pgHostPort.Split(":")[1];
 
-                    connStr = $"Server={pgHost};Port={pgPort};User Id={pgUser};Password={pgPass};Database={pgDb}; SSL Mode=Require; Trust Server Certificate=true";
+                    connStr = $"Server={pgHost};Port={pgPort};User Id={pgUser};Password={pgPass};Database={pgDb};";
                 }
 
                 // Whether the connection string came from the local development configuration file
