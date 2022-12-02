@@ -43,11 +43,11 @@ namespace Application.Profiles
 
                 if (request.Predicate == "future")
                 {
-                    query = query.Where(x => x.Date >= DateTime.Now);
+                    query = query.Where(x => x.Date >= DateTime.UtcNow);
                 }
                 if (request.Predicate == "past")
                 {
-                    query = query.Where(x => x.Date < DateTime.Now);
+                    query = query.Where(x => x.Date < DateTime.UtcNow);
                 }
                 if (request.Predicate == "hosting")
                 {
